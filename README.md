@@ -57,7 +57,7 @@
 
 ##### 4.1 setColorPickingMethod($colorPickingMethod)
 
-This setting is optional, if you won't call this function default value will be used.
+This setting is optional, if you won't call this function, default value will be used.
 
 | $colorPickingMethod  | Description |
 | -------------------- | ----------- |
@@ -68,7 +68,7 @@ This setting is optional, if you won't call this function default value will be 
 
 ##### 4.2 setColorType($colorType)
 
-This setting is optional, if you won't call this function default value will be used.
+This setting is optional, if you won't call this function, default value will be used.
 
 | $colorType      | Description |
 | --------------- | ----------- |
@@ -78,18 +78,18 @@ This setting is optional, if you won't call this function default value will be 
 
 ##### 4.3 setLightnessLimit($type, $lightness)
 
-This setting is optional, if you won't call this function default value will be used.
+This setting is optional, if you won't call this function, default value will be used.
 
 | $type | $lightness default | Accepted values | Description |
 | ----- | ------------------ | --------------- | ----------- |
 | `max` | `1`                | <`0.5`;`1`>     | Limits maximum perceived lightness of returned colors |
 | `min` | `0`                | <`0`;`0.5`>     | Limits minimum perceived lightness of returned colors |
 
-setLightnessLimit() can be called twice if you want to set `max` and `min` limit at the same time (difference between `max` and `min` must be bigger or equal to `0.5`)
+setLightnessLimit() can be called twice if you want to set `max` and `min` limit at the same time (difference between `max` and `min` must be bigger or equal to `0.5`).
 
 ##### 4.4 setMaximumColors($maximumColors)
 
-This setting is optional, if you won't call this function number of used colors wont be limited.
+This setting is optional, if you won't call this function, number of used colors won't be limited.
 
 | $maximumColors accepted values | Description                              |
 | ------------------------------ | ---------------------------------------- |
@@ -104,7 +104,8 @@ This setting is optional, if you won't call this function number of used colors 
 
 ### 5. List of pregenerated list of colors
 
-65 visually most distinct colors generated using <a href="http://en.wikipedia.org/wiki/Color_difference#CIEDE2000">CIEDE2000</a> algorithm
+List of 65 visually most distinct colors generated using <a href="http://en.wikipedia.org/wiki/Color_difference#CIEDE2000">CIEDE2000</a> algorithm.
+Colors from this list are used if you use `setColorPickingMethod()` with `dynamic`, `dynamic-random` or `static` parameter.
 
 <img src="http://i.imgur.com/40Dwl8U.png">
 
