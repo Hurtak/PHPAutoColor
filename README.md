@@ -2,7 +2,7 @@
 
 ##### Simple PHP class for automated coloring with visually distinct colors.
 
-### 1. Use-case
+### 1. Use case
 * coloring peoples messages in chat by their user name
 * coloring list of latest users actions on admin dashboard by user id
 
@@ -10,7 +10,7 @@
 
 ### 2. Features
 * fast and lightweight
-* lots of options to customize
+* lots of customization options
 * easy debugging
 
 <img src="http://i.imgur.com/GSei33D.png">
@@ -93,7 +93,10 @@ This setting is optional, if you won't call this function number of used colors 
 
 ##### 4.5 getColor($number, $opacity = 1)
 
-This setting is optional, if you won't call this function number of used colors wont be limited.
+| Parameter | Description |
+| --------- | ----------- |
+| $number   | Number you are basing the coloring around, eg.: user id, user action type |
+| $opacity  | Opacity value, only used if color type is set to `rgba` |
 
 ### 5. List of pregenerated list of colors
 
