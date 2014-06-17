@@ -41,14 +41,16 @@
 			<td>date</td>
 		</tr>
 
-	<?php foreach ($userActions as $action): ?>
+		<?php foreach ($userActions as $action): ?>
 		<tr style="background-color: <?= $color->getColor($action['user_id']) ?>">
 			<td><?= $action["id"] ?></td>
 			<td><?= $action["user_id"] ?></td>
 			<td><?= $action["amount"] ?></td>
 			<td><?= $action["date"] ?></td>
 		</tr>
-	<?php endforeach ?>
+		<?php endforeach ?>
+	
+	</table>
 ```
 
 ### 4. Functions
