@@ -3,9 +3,12 @@
 /*
 
 	PHPAutoColor
+
 	Author: Petr Huřťák
 	Contact: petr.hurtak@gmail.com
 	Licence: The MIT License (MIT)
+
+	Readme: https://github.com/Hurtak/PHPAutoColor
 
  */
 
