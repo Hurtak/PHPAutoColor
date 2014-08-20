@@ -102,7 +102,7 @@ This setting is optional, if you won't call this function, number of used colors
 | $number   | Number you are basing the coloring around, eg.: user id, user action type |
 | $opacity  | Opacity value, only used if color type is set to `rgba` |
 
-### 5. List of pregenerated list of colors
+### 5. List of pregenerated colors
 
 List of 65 visually most distinct colors generated using <a href="http://en.wikipedia.org/wiki/Color_difference#CIEDE2000">CIEDE2000</a> algorithm.
 Colors from this list are used if you use `setColorPickingMethod()` with `dynamic`, `dynamic-random` or `static` parameter.
