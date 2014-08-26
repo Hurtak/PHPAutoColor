@@ -1,15 +1,15 @@
 <?php 
 
-/*
-
-	PHPAutoColor
-
-	author: Petr Huřťák
-	e-mail: petr.hurtak@gmail.com
-	licence: The MIT License (MIT)
-
-	readme: https://github.com/Hurtak/PHPAutoColor
-
+/**
+ * PHPAutoColor - Simple PHP class for automated coloring 
+ *                with visually distinct colors
+ *
+ * @author  Petr Huřťák
+ * 
+ * @link    github.com/Hurtak/PHPAutoColor
+ * @license The MIT License (MIT)
+ * 
+ * @version 1.0.1
  */
 
 class PHPAutoColor {
