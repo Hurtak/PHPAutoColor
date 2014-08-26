@@ -4,11 +4,11 @@
 
 	PHPAutoColor
 
-	Author: Petr Huřťák
-	Contact: petr.hurtak@gmail.com
-	Licence: The MIT License (MIT)
+	author: Petr Huřťák
+	e-mail: petr.hurtak@gmail.com
+	licence: The MIT License (MIT)
 
-	Readme: https://github.com/Hurtak/PHPAutoColor
+	readme: https://github.com/Hurtak/PHPAutoColor
 
  */
 
