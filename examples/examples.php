@@ -29,7 +29,7 @@
 		</tr>
 		<tr>
 			<th>author:</th>
-			<td>Petr Hurtak</td>
+			<td>Petr Huřťák</td>
 			<th>licence:</th>
 			<td>The MIT License (MIT)</td>
 		</tr>
