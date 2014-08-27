@@ -3,12 +3,29 @@
 ##### Simple PHP class for automated coloring with visually distinct colors.
 
 ### 1. Use case
-* coloring peoples messages in chat by their user name
-* coloring list of latest users actions on admin dashboard by user id
+* coloring peoples messages in chat by their user name or their user id
+* coloring list of latest users actions, on admin dashboard, by user id or username
 
 <img src="http://i.imgur.com/gWcqw2c.png">
 
-### 2. Features
+### 2. Usage
+
+##### 2.1 Basic setup 
+```php
+	include "PHPAutoColor.php";
+	$color = new PHPAutoColor();
+```
+
+##### 2.2 Settings (optional)
+* customize PHPAutoColor settings or don't do anything and default settings will be used
+
+##### 2.3 Send user id or username, color will be returned
+* integers, numbers with decimal points and strings (case sensitive) are accepted
+```php
+	$color->getColor($userID); // returns "#000"
+```
+
+### 3. Features
 * fast and lightweight
 * lots of customization options
 * advance algorithms like <a href="http://en.wikipedia.org/wiki/Color_difference#CIEDE2000">CIEDE2000</a> or <a href="http://alienryderflex.com/hsp.html">HSP</a> color model
@@ -16,19 +33,20 @@
 
 <img src="http://i.imgur.com/GSei33D.png">
 
-### 3. Code example
+### 4. Code example
 ```php
 	<?php
 
 	// data from DB
-	$sql = $pdo->prepare("SELECT * FROM actions ORDER BY id DESC LIMIT 10");
+	$sql = $pdo->prepare("SELECT * FROM actions");
 	$sql->execute();
 	$userActions = $sql->fetchAll();
 	
 	// PHPAutoColor settings
+	include "PHPAutoColor.php";
 	$color = new PHPAutoColor();
 	$color->setColorType("hex");
-	$color->setColorPickingMethod("static");
+	$color->setColorPickingMethod("dynamic");
 	$color->setLightnessLimit("min", 0.3);
 
 	?>
@@ -53,9 +71,9 @@
 	</table>
 ```
 
-### 4. Functions
+### 5. Settings
 
-##### 4.1 setColorPickingMethod($colorPickingMethod)
+##### 5.1 setColorPickingMethod($colorPickingMethod)
 
 This setting is optional, if you won't call this function, default value will be used.
 
@@ -66,7 +84,7 @@ This setting is optional, if you won't call this function, default value will be
 | `dynamic-random`     | Colors are assigned randomly from pregenerated colors list |
 | `random`             | Colors are assigned randomly |
 
-##### 4.2 setColorType($colorType)
+##### 5.2 setColorType($colorType)
 
 This setting is optional, if you won't call this function, default value will be used.
 
@@ -76,7 +94,7 @@ This setting is optional, if you won't call this function, default value will be
 | `rgb`           | Color in rgb format (eg.: `rgb(255,0,0)`) |
 | `rgba`          | Color in rgba format (eg.: `rgba(255,0,0,0.5)`) |
 
-##### 4.3 setLightnessLimit($type, $lightness)
+##### 5.3 setLightnessLimit($type, $lightness)
 
 This setting is optional, if you won't call this function, default value will be used.
 
@@ -87,7 +105,7 @@ This setting is optional, if you won't call this function, default value will be
 
 setLightnessLimit() can be called twice if you want to set `max` and `min` limit at the same time (difference between `max` and `min` must be bigger or equal to `0.5`).
 
-##### 4.4 setMaximumColors($maximumColors)
+##### 5.4 setMaximumColors($maximumColors)
 
 This setting is optional, if you won't call this function, number of used colors won't be limited.
 
@@ -95,14 +113,14 @@ This setting is optional, if you won't call this function, number of used colors
 | ------------------------------ | ---------------------------------------- |
 |  <`6`;`32`>                    | Limits the maximum number of used colors |
 
-##### 4.5 getColor($number, $opacity = 1)
+##### 5.5 getColor($number, $opacity = 1)
 
 | Parameter | Description |
 | --------- | ----------- |
 | $number   | Number you are basing the coloring around, eg.: user id, user action type |
 | $opacity  | Opacity value, only used if color type is set to `rgba` |
 
-### 5. List of pregenerated colors
+### 6. List of pregenerated colors
 
 List of 65 visually most distinct colors generated using <a href="http://en.wikipedia.org/wiki/Color_difference#CIEDE2000">CIEDE2000</a> algorithm.
 Colors from this list are used if you use `setColorPickingMethod()` with `dynamic`, `dynamic-random` or `static` parameter.
