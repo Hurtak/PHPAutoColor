@@ -1,0 +1,26 @@
+#autoColorError {
+	background-color: rgba(196, 0, 0, 0.85);
+	outline: 5px solid rgba(255, 255, 255, 0.92);
+
+	position: fixed;
+	left: 0; top: 0; right: 0; bottom: 0;
+	margin: auto;
+
+	width: 400px;
+	height: 250px;
+
+	overflow: auto;
+	z-index: 9999;
+	padding: 1em;
+}
+
+#autoColorError li, #autoColorError b {
+	color: #fff;
+	text-align: left;
+	font-size: 16px;
+	font-family: 'cambria', 'arial';
+}
+
+#autoColorError b {
+	font-size: 20px;
+}

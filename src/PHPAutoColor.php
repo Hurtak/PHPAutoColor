@@ -9,7 +9,7 @@
  * @link    github.com/Hurtak/PHPAutoColor
  * @license The MIT License (MIT)
  * 
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 class PHPAutoColor {
@@ -41,7 +41,7 @@ class PHPAutoColor {
 	private $inicializationCompleted = false;
 
 	// pregenerated colors with CIEDE2000 algorithm 
-	// http://en.wikipedia.org/wiki/Color_difference#CIEDE2000
+	// en.wikipedia.org/wiki/Color_difference#CIEDE2000
 	private $CIEDE2000 = array(
 		"000000", "FFFFFF", "00FF00", "0000FF", "FF0000", "01FFFE", "FFA6FE",
 		"FFDB66", "006401", "010067", "95003A", "007DB5", "FF00F6", "FFEEE8",
@@ -53,7 +53,7 @@ class PHPAutoColor {
 		"FFE502", "620E00", "008F9C", "98FF52", "7544B1", "B500FF", "00FF78",
 		"FF6E41", "005F39", "6B6882", "5FAD4E", "A75740", "A5FFD2", "FFB167",
 		"009BFF", "E85EBE"
-		);
+	);
 
 	/**
 	 * Sets method which will be used to pick colors when getColor() is called
@@ -95,16 +95,16 @@ class PHPAutoColor {
 	public function setLightnessLimit($type, $lightness) {
 		$type = strtolower(trim($type));
 
-		if ($type != "max" && $type != "min") {
+		if ($type !== "max" && $type !== "min") {
 			$this->error[] = "Lightness limitation type not specified properly, only 'max' and 'min' are accepted values. Entered value '" . $type . "'.";
 		} elseif (!is_numeric($lightness)) {
 			$this->error[] = "Lightness value not specified properly, only numbers are accepted. Entered value '" . $lightness . "'.";
-		} elseif ($type == "max" && ($lightness < 0.5 || $lightness > 1)) {
-			$this->error[] = "Maximum lightness value must be in <0.5;1> range. Entered value '" . $lightness . "'.";
-		} elseif ($type == "min" && ($lightness > 0.5 || $lightness < 0)) {
-			$this->error[] = "Minimum lightness value must be in <0;0.5> range. Entered value '" . $lightness . "'.";
+		} elseif ($type === "max" && ($lightness < 0.2 || $lightness > 1)) {
+			$this->error[] = "Maximum lightness value must be in <0.2;1> range. Entered value '" . $lightness . "'.";
+		} elseif ($type === "min" && ($lightness > 0.8 || $lightness < 0)) {
+			$this->error[] = "Minimum lightness value must be in <0;0.8> range. Entered value '" . $lightness . "'.";
 		} else {
-			if ($type == "max") {
+			if ($type === "max") {
 				$this->lightnessMax = $lightness;
 			} else {
 				$this->lightnessMin = $lightness;
@@ -151,11 +151,11 @@ class PHPAutoColor {
 		if (!$this->inicializationCompleted) {
 			$this->inicializationCompleted = true;
 
-			if ($this->lightnessMax - $this->lightnessMin < 0.5) {
-				$this->error[] = "Difference between maximum and minimum lightness must be at least 0.5. Entered values: max '" . $this->lightnessMax . "', min  '" . $this->lightnessMin . "', difference " . ($this->lightnessMax - $this->lightnessMin) . ".";
+			if ($this->lightnessMax - $this->lightnessMin < 0.2) {
+				$this->error[] = "Difference between maximum and minimum lightness must be at least 0.2. Entered values: max '" . $this->lightnessMax . "', min  '" . $this->lightnessMin . "', difference " . ($this->lightnessMax - $this->lightnessMin) . ".";
 			}
 
-			if ($this->lightnessMin != 0 || $this->lightnessMax != 1) {
+			if ($this->lightnessMin !== 0 || $this->lightnessMax !== 1) {
 				$this->CIEDE2000 = $this->removeColorsOutsideLightnessSettings($this->lightnessMin, $this->lightnessMax, $this->CIEDE2000);
 			}
 
@@ -205,7 +205,7 @@ class PHPAutoColor {
 					$colorRGB[] = hexdec(substr($color, $i * 2, 2));
 				}
 
-				if ($this->colorType == "rgba") {
+				if ($this->colorType === "rgba") {
 					$opacity = "," . $opacity;
 				} else {
 					$opacity = "";
@@ -266,7 +266,7 @@ class PHPAutoColor {
 		$adjustedColors = array();
 		foreach ($colors as $colorsAdded => $color) {
 			$adjustedColors[] = $color; 
-			if ($colorsAdded == $numberOfColors - 1) {
+			if ($colorsAdded === $numberOfColors - 1) {
 				break;
 			}
 		}
@@ -282,7 +282,7 @@ class PHPAutoColor {
 	 *                         1 => green, 2=> blue)
 	 */
 	private function hexToRGB($hex) {
-		if (substr($hex, 0, 1) == "#") {
+		if (substr($hex, 0, 1) === "#") {
 			$hex = substr($hex, 1, strlen($hex) - 1);
 		}
 
@@ -313,9 +313,9 @@ class PHPAutoColor {
 	 * @return [string]              original hex color or shortened hex color
 	 */
 	private function shortenHex($hexNumber) {
-		if ($hexNumber[0] == $hexNumber[1] && 
-			$hexNumber[2] == $hexNumber[3] && 
-			$hexNumber[4] == $hexNumber[5]) {
+		if ($hexNumber[0] === $hexNumber[1] && 
+			$hexNumber[2] === $hexNumber[3] && 
+			$hexNumber[4] === $hexNumber[5]) {
 			return ($hexNumber[0] . $hexNumber[2] . $hexNumber[4]);
 		}
 		return $hexNumber;
@@ -333,25 +333,15 @@ class PHPAutoColor {
 			$errorsPrinted = true;
 
 			$errorsList = "<li>" . implode("</li><li>", $errors) . "</li>";
+			$css = file_get_contents("errors.css", true);
 
 			/* '>"> is here so it can close the <div style="background-color: <?= $color->getColor($number) ?>"> tag and properly display error div */
-			$errorsOutput = "
-				'>\">
+			$errorsOutput = 
+				"'>\">
 				<style>
-					.autoColorError {
-						background-color: rgba(196,0,0,0.92); position: fixed;
-						left: 0; top: 0; right: 0; bottom: 0; margin: auto;
-						width: 400px; height: 250px; overflow: auto; z-index: 999;
-						padding: 1em; outline: 5px solid rgba(255,255,255,0.92)
-					}
-					.autoColorError li, .autoColorError b {
-						color: #fff; font-size: 16px; font-family: cambria, arial
-					}
-					.autoColorError b {
-						font-size: 20px;
-					}
+					$css
 				</style>
-				<div class='autoColorError'> 
+				<div id='autoColorError'> 
 					<b>
 						PHPAutoColor - ERRORS DETECTED
 					</b>
