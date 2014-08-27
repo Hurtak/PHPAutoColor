@@ -9,7 +9,7 @@
  * @link    github.com/Hurtak/PHPAutoColor
  * @license The MIT License (MIT)
  * 
- * @version 1.1.0
+ * @version 1.1.2
  */
 
 class PHPAutoColor {
@@ -187,8 +187,11 @@ class PHPAutoColor {
 					$color = $this->CIEDE2000[mt_rand(0, $this->numberOfColors - 1)];
 					break;
 				case "static":
-					// transfers input to integer
-					$inputAdjusted = abs(crc32($input));
+					$inputAdjusted = $input;
+					if ((int)$input != $input) {
+						// transfers input to integer
+						$inputAdjusted = abs(crc32($input));
+					}
 					$color = $this->CIEDE2000[$inputAdjusted%$this->numberOfColors];
 					break;
 			}
