@@ -61,9 +61,9 @@ This setting is optional, if you won't call this function, default value will be
 
 | $colorPickingMethod  | Description |
 | -------------------- | ----------- |
-| `dynamic` (default)  | Colors are assigned gradually from pregenerated colors list (first color will always be black, second one white...) |
+| `static` (default)   | Colors are assigned from pregenerated colors list. Same color is always assigned to gived number or string |
+| `dynamic`            | Colors are assigned gradually from pregenerated colors list (first color will always be black, second one white...) |
 | `dynamic-random`     | Colors are assigned randomly from pregenerated colors list |
-| `static`             | Colors are assigned from pregenerated colors list in a way, that same color is always asigned to entered number (100 will always be red no matter if its first or last) |
 | `random`             | Colors are assigned randomly |
 
 ##### 4.2 setColorType($colorType)
