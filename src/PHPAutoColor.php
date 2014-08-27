@@ -95,14 +95,16 @@ class PHPAutoColor {
 	public function setLightnessLimit($type, $lightness) {
 		$type = strtolower(trim($type));
 
+		$maximumLightnessRange = 0.2; // <0.2;1.0>
+		$minimumLightnessRange = 0.8; // <0.0;0.8>
 		if ($type !== "max" && $type !== "min") {
 			$this->error[] = "Lightness limitation type not specified properly, only 'max' and 'min' are accepted values. Entered value '" . $type . "'.";
 		} elseif (!is_numeric($lightness)) {
 			$this->error[] = "Lightness value not specified properly, only numbers are accepted. Entered value '" . $lightness . "'.";
-		} elseif ($type === "max" && ($lightness < 0.2 || $lightness > 1)) {
-			$this->error[] = "Maximum lightness value must be in <0.2;1> range. Entered value '" . $lightness . "'.";
-		} elseif ($type === "min" && ($lightness > 0.8 || $lightness < 0)) {
-			$this->error[] = "Minimum lightness value must be in <0;0.8> range. Entered value '" . $lightness . "'.";
+		} elseif ($type === "max" && ($lightness < $maximumLightnessRange || $lightness > 1)) {
+			$this->error[] = "Maximum lightness value must be in <" . $maximumLightnessRange . ";1> range. Entered value '" . $lightness . "'.";
+		} elseif ($type === "min" && ($lightness > $minimumLightnessRange || $lightness < 0)) {
+			$this->error[] = "Minimum lightness value must be in <0;" . $minimumLightnessRange . "> range. Entered value '" . $lightness . "'.";
 		} else {
 			if ($type === "max") {
 				$this->lightnessMax = $lightness;
@@ -123,7 +125,7 @@ class PHPAutoColor {
 		if (!is_numeric($maximumColors)) {
 			$this->error[] = "Maximum number of colors value not specified properly, only numbers are accepted. Entered value '" . $maximumColors . "'.";
 		} elseif ($maximumColors > $max || $maximumColors < $min) {
-			$this->error[] = "Maximum number of colors must be in <$min;$max> range. Entered value '" . $maximumColors . "'.";
+			$this->error[] = "Maximum number of colors must be in <" . $min . ";" . $max . "> range. Entered value '" . $maximumColors . "'.";
 		} else {
 			$this->maximumColors = $maximumColors;
 		}
@@ -151,8 +153,9 @@ class PHPAutoColor {
 		if (!$this->inicializationCompleted) {
 			$this->inicializationCompleted = true;
 
-			if ($this->lightnessMax - $this->lightnessMin < 0.2) {
-				$this->error[] = "Difference between maximum and minimum lightness must be at least 0.2. Entered values: max '" . $this->lightnessMax . "', min  '" . $this->lightnessMin . "', difference " . ($this->lightnessMax - $this->lightnessMin) . ".";
+			$minimumDifference = 0.2;
+			if ($this->lightnessMax - $this->lightnessMin < $minimumDifference) {
+				$this->error[] = "Difference between maximum and minimum lightness must be at least " . $minimumDifference . ". Entered values: max '" . $this->lightnessMax . "', min  '" . $this->lightnessMin . "', difference " . ($this->lightnessMax - $this->lightnessMin) . ".";
 			}
 
 			if ($this->lightnessMin !== 0 || $this->lightnessMax !== 1) {
@@ -338,16 +341,10 @@ class PHPAutoColor {
 			/* '>"> is here so it can close the <div style="background-color: <?= $color->getColor($number) ?>"> tag and properly display error div */
 			$errorsOutput = 
 				"'>\">
-				<style>
-					$css
-				</style>
+				<style>" . $css . "</style>
 				<div id='autoColorError'> 
-					<b>
-						PHPAutoColor - ERRORS DETECTED
-					</b>
-					<ul>
-						$errorsList
-					</ul>
+					<b>PHPAutoColor - ERRORS DETECTED</b>
+					<ul>" . $errorsList . "</ul>
 				</div>";
 
 			echo $errorsOutput;

@@ -46,6 +46,33 @@
 	<?php 
 		$color = new PHPAutoColor();
 		$color->setColorType("rgba");
+		$color->setColorPickingMethod("static");
+		$color->setLightnessLimit("min", 0.2);
+		$color->setLightnessLimit("max", 0.8);
+	?>
+	<table>
+		<tr>
+			<th colspan="4">setColorPickingMethod("static");</th>
+		</tr>
+		<tr>
+			<th>id</th>
+			<th>user_id</th>
+			<th>amount</th>
+			<th>date</th>
+		</tr>
+		<?php foreach ($dbData as $value): ?>
+		<tr style="background-color: <?= $color->getColor($value['user_id'], 0.5) ?>">
+			<td><?= $value["id"] ?></td>
+			<td><?= $value["user_id"] ?></td>
+			<td><?= $value["amount"] ?></td>
+			<td><?= $value["date"] ?></td>
+		</tr>
+		<?php endforeach ?>
+	</table>
+
+	<?php 
+		$color = new PHPAutoColor();
+		$color->setColorType("rgba");
 		$color->setColorPickingMethod("dynamic");
 		$color->setLightnessLimit("min", 0.2);
 		$color->setLightnessLimit("max", 0.8);
@@ -70,6 +97,8 @@
 		<?php endforeach ?>
 	</table>
 
+	<br>
+
 	<?php 
 		$color = new PHPAutoColor();
 		$color->setColorType("rgba");
@@ -80,35 +109,6 @@
 	<table>
 		<tr>
 			<th colspan="4">setColorPickingMethod("dynamic-random");</th>
-		</tr>
-		<tr>
-			<th>id</th>
-			<th>user_id</th>
-			<th>amount</th>
-			<th>date</th>
-		</tr>
-		<?php foreach ($dbData as $value): ?>
-		<tr style="background-color: <?= $color->getColor($value['user_id'], 0.5) ?>">
-			<td><?= $value["id"] ?></td>
-			<td><?= $value["user_id"] ?></td>
-			<td><?= $value["amount"] ?></td>
-			<td><?= $value["date"] ?></td>
-		</tr>
-		<?php endforeach ?>
-	</table>
-
-	<br>
-
-	<?php 
-		$color = new PHPAutoColor();
-		$color->setColorType("rgba");
-		$color->setColorPickingMethod("static");
-		$color->setLightnessLimit("min", 0.2);
-		$color->setLightnessLimit("max", 0.8);
-	?>
-	<table>
-		<tr>
-			<th colspan="4">setColorPickingMethod("static");</th>
 		</tr>
 		<tr>
 			<th>id</th>
