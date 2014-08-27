@@ -35,7 +35,7 @@ class PHPAutoColor {
 	private $error = array();
 
 	private $usedColors = 0;
-	private $maximumColors = 0;
+	private $maximumColors = false;
 	private $numberOfColors;
 
 	private $inicializationCompleted = false;
@@ -120,12 +120,12 @@ class PHPAutoColor {
 	 * @param [int] [$maximumColors] maximum number of colors 
 	 */
 	public function setMaximumColors($maximumColors) {
-		$min = 6;
-		$max = 32;
+		$min = 2;
+
 		if (!is_numeric($maximumColors)) {
 			$this->error[] = "Maximum number of colors value not specified properly, only numbers are accepted. Entered value '" . $maximumColors . "'.";
-		} elseif ($maximumColors > $max || $maximumColors < $min) {
-			$this->error[] = "Maximum number of colors must be in <" . $min . ";" . $max . "> range. Entered value '" . $maximumColors . "'.";
+		} elseif ($maximumColors < $min) {
+			$this->error[] = "Maximum number of colors must be bigger or equal to " . $min . ". Entered value '" . $maximumColors . "'.";
 		} else {
 			$this->maximumColors = $maximumColors;
 		}
@@ -163,7 +163,7 @@ class PHPAutoColor {
 				$this->CIEDE2000 = $this->removeColorsOutsideLightnessSettings($this->lightnessMin, $this->lightnessMax, $this->CIEDE2000);
 			}
 
-			if ($this->maximumColors > 0) {
+			if ($this->maximumColors) {
 				$this->CIEDE2000 = $this->limitNumberOfUsedColors($this->maximumColors, $this->CIEDE2000);
 			}
 
