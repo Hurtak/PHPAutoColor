@@ -82,8 +82,8 @@ This setting is optional, if you won't call this function, default value will be
 
 | $type | $lightness default | Accepted values | Description |
 | ----- | ------------------ | --------------- | ----------- |
-| `max` | `1`                | <`0.5`;`1`>     | Limits maximum perceived lightness of returned colors |
-| `min` | `0`                | <`0`;`0.5`>     | Limits minimum perceived lightness of returned colors |
+| `max` | `1`                | <`0.2`;`1`>     | Limits maximum perceived lightness of returned colors |
+| `min` | `0`                | <`0`;`0.8`>     | Limits minimum perceived lightness of returned colors |
 
 setLightnessLimit() can be called twice if you want to set `max` and `min` limit at the same time (difference between `max` and `min` must be bigger or equal to `0.5`).
 
