@@ -1,0 +1,43 @@
+body {
+	background: #6A6A6A;
+	background: radial-gradient(circle closest-corner at center,#737373 0,#292929 120%);
+}
+
+.wrapper {
+	text-align: center;
+}
+
+table {
+	color: #fff;
+	display: inline-block;
+	font-family: "cambria", "arial";
+	margin: .5em;
+	width: 400px;
+}
+
+table:first-child {
+	margin-bottom: 1em;
+}
+
+th, td {
+	padding: .2em .5em;
+}
+
+th {
+	background-color: rgba(0, 0, 0, .2);
+	text-align: center;
+}
+
+th:first-child {
+	padding-bottom: 1em;
+	padding-top: 1em;
+}
+
+span {
+	font-size: 130%;
+	font-style: italic;
+}
+
+a {
+	color: #fff;
+}

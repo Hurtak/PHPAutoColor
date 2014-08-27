@@ -1,45 +1,27 @@
+<meta charset="utf-8">
+<link rel="stylesheet" href="style.css">
+<title>PHPAutoColor examples</title>
+
 <?php 
 
-	include "PHPAutoColor.php";
+	include "../src/PHPAutoColor.php";
 
 	// create dummy database data
-	$dbData = [];
+	$dbData = array();
 
 	$numberOfUsers = 3;
 	$numberOfRows = 10;
 
 	for ($i = 0; $i < $numberOfRows; $i++) { 
-		$dbData[$i] = [
+		$dbData[$i] = array(
 			"id" => $i + 1,
 			"user_id" => mt_rand(1, $numberOfUsers),
 			"amount" => mt_rand(10, 100),
 			"date" => date("Y-m-d H:i:s", strtotime(mt_rand(-1000000, 0) . " second"))
-		];
+		);
 	}
 
 ?>
-
-<style>
-	.wrapper {text-align: center;}
-	body {
-		background: #808080;
-		background: radial-gradient(circle closest-corner at center,#858585 0,#474747 120%);
-	}
-	table {
-		color: #fff;
-		font-family: "cambria", "arial";
-		display: inline-block;
-		margin: .5em;
-		width: 400px;
-	}
-	table:first-child {margin-bottom: 1em;}
-	th, td {padding: .2em .5em;}
-	th {text-align: center;	background-color: rgba(0,0,0,.2);}
-	th:first-child {padding-bottom: 1em; padding-top: 1em;}
-	span {font-style: italic; font-size: 130%;}
-	a {color: #fff;}
-</style>
-
 <div class="wrapper">
 	<table>
 		<tr>
