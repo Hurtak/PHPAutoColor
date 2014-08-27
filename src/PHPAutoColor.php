@@ -9,7 +9,7 @@
  * @link    github.com/Hurtak/PHPAutoColor
  * @license The MIT License (MIT)
  * 
- * @version 1.0.3
+ * @version 1.1.0
  */
 
 class PHPAutoColor {
@@ -31,7 +31,7 @@ class PHPAutoColor {
 	);
 	private $colorType = "hex";
 
-	private $usedNumbersAndColors = array();
+	private $inputsWithAssignedColors = array();
 	private $error = array();
 
 	private $usedColors = 0;
@@ -132,22 +132,23 @@ class PHPAutoColor {
 	}
 
 	/**
-	 * Assigns color to entered number and returns that color accordingly to
+	 * Assigns color to entered input and returns that color accordingly to
 	 * selected setColorPickingMethod() and setColorType()
-	 * @param  [number] [$number]  number to which we want to assign color
-	 * @param  [number] [$opacity] opracity used for rgba
-	 * @return [string]            visually most distinct color 
+	 * @param  [variable] [$input]   string or number to which we want to
+	 *                               assign color
+	 * @param  [number]   [$opacity] opracity used for rgba
+	 * @return [string]              visually most distinct color 
 	 */
-	public function getColor($number, $opacity = 1) {
+	public function getColor($input, $opacity = 1) {
 		if (!is_numeric($opacity)) {
 			$this->error[] = "Opacity value is not a number. Entered value '" . $opacity . "'.";
 		} elseif ($opacity > 1 || $opacity < 0) {
 			$this->error[] = "Opacity must be in <0;1> range. Entered value '" . $opacity . "'.";
-		} elseif (!is_numeric($number)) {
-			$this->error[] = "Number is not specified properly. Entered value '" . $number . "'.";
+		} elseif (is_array($input)) {
+			$this->error[] = "Input must be number or string, array detected.";
 		}
 
-		$number = (string)$number;
+		$input = (string)$input;
 
 		// initialization
 		if (!$this->inicializationCompleted) {
@@ -170,14 +171,14 @@ class PHPAutoColor {
 		}
 		
 		// assigning color to entered number
-		if (isset($this->usedNumbersAndColors[$number])) {
-			$color = $this->usedNumbersAndColors[$number];
+		if (isset($this->inputsWithAssignedColors[$input])) {
+			$color = $this->inputsWithAssignedColors[$input];
 		} else {
 			switch ($this->colorPickingMethod) {
 				case 'random':
 					$color = dechex(mt_rand(0, 0xFFFFFF));
 					$color = $this->addLeadingZeros($color);
-					$this->usedNumbersAndColors[$number] = $color;
+					$this->inputsWithAssignedColors[$input] = $color;
 					break;
 				case "dynamic":
 					$color = $this->CIEDE2000[$this->usedColors%$this->numberOfColors];
@@ -186,14 +187,13 @@ class PHPAutoColor {
 					$color = $this->CIEDE2000[mt_rand(0, $this->numberOfColors - 1)];
 					break;
 				case "static":
-					// removes decimal point from $number so it becomes whole number
-					$numberAdjusted = preg_replace("~(\d*)(\.)(\d*)~", "\\1\\3", $number);
-
-					$color = $this->CIEDE2000[$numberAdjusted%$this->numberOfColors];
+					// transfers input to integer
+					$inputAdjusted = abs(crc32($input));
+					$color = $this->CIEDE2000[$inputAdjusted%$this->numberOfColors];
 					break;
 			}
 			$this->usedColors++;
-			$this->usedNumbersAndColors[$number] = $color;
+			$this->inputsWithAssignedColors[$input] = $color;
 		}
 
 		// transforming color to desired color type
@@ -223,8 +223,8 @@ class PHPAutoColor {
 	}
 
 	/**
-	 * Returns lightness of color in range from 0 (black) to 1 (white). Based on
-	 * the HSP color model
+	 * Returns lightness of color in range from 0 (black) to 1 (white). 
+	 * Based on the HSP color model
 	 * @link http://alienryderflex.com/hsp.html
 	 * @param  [string] [$color] hex color (format type "ffffff")
 	 * @return [float]           lightness of color
