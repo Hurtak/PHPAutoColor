@@ -9,20 +9,27 @@
  * @link    github.com/Hurtak/PHPAutoColor
  * @license The MIT License (MIT)
  * 
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 class PHPAutoColor {
 	private $lightnessMax = 1;
 	private $lightnessMin = 0;
-	
-	private $colorPickingMethod = "dynamic";
-	private $colorPickingMethods = array(
-		"random", "dynamic", "dynamic-random", "static"
-		);
 
+	private $colorPickingMethods = array(
+		"static",
+		"dynamic",
+		"dynamic-random",
+		"random"
+	);
+	private $colorPickingMethod = "static";
+
+	private $colorTypes = array(
+		"hex",
+		"rgb",
+		"rgba"
+	);
 	private $colorType = "hex";
-	private $colorTypes = array("hex", "rgb", "rgba");
 
 	private $usedNumbersAndColors = array();
 	private $error = array();
