@@ -103,7 +103,7 @@ This setting is optional, if you won't call this function, default value will be
 | `max` | `1`                | <`0.2`;`1`>     | Limits maximum perceived lightness of returned colors |
 | `min` | `0`                | <`0`;`0.8`>     | Limits minimum perceived lightness of returned colors |
 
-setLightnessLimit() can be called twice if you want to set `max` and `min` limit at the same time (difference between `max` and `min` must be bigger or equal to `0.5`).
+setLightnessLimit() can be called twice if you want to set `max` and `min` limit at the same time (difference between `max` and `min` must be bigger or equal to `0.2`).
 
 ##### 5.4 setMaximumColors($maximumColors)
 
@@ -111,13 +111,13 @@ This setting is optional, if you won't call this function, number of used colors
 
 | $maximumColors accepted values | Description                              |
 | ------------------------------ | ---------------------------------------- |
-|  <`6`;`32`>                    | Limits the maximum number of used colors |
+| bigger or equal to `2`         | Limits the maximum number of used colors |
 
 ##### 5.5 getColor($number, $opacity = 1)
 
 | Parameter | Description |
 | --------- | ----------- |
-| $number   | Number you are basing the coloring around, eg.: user id, user action type |
+| $input    | Input you are basing the coloring around, eg.: user id, username |
 | $opacity  | Opacity value, only used if color type is set to `rgba` |
 
 ### 6. List of pregenerated colors
