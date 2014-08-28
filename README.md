@@ -73,7 +73,14 @@
 
 ### 5. Settings
 
-##### 5.1 setColorPickingMethod($colorPickingMethod)
+##### 5.1 getColor($number, $opacity = 1)
+
+| Parameter | Description |
+| --------- | ----------- |
+| $input    | Input you are basing the coloring around, eg.: user id, username |
+| $opacity  | Opacity value, only used if color type is set to `rgba` |
+
+##### 5.2 setColorPickingMethod($colorPickingMethod)
 
 This setting is optional, if you won't call this function, default value will be used.
 
@@ -84,7 +91,7 @@ This setting is optional, if you won't call this function, default value will be
 | `dynamic-random`     | Colors are assigned randomly from pregenerated colors list |
 | `random`             | Colors are assigned randomly |
 
-##### 5.2 setColorType($colorType)
+##### 5.3 setColorType($colorType)
 
 This setting is optional, if you won't call this function, default value will be used.
 
@@ -94,7 +101,7 @@ This setting is optional, if you won't call this function, default value will be
 | `rgb`           | Color in rgb format (eg.: `rgb(255,0,0)`) |
 | `rgba`          | Color in rgba format (eg.: `rgba(255,0,0,0.5)`) |
 
-##### 5.3 setLightnessLimit($type, $lightness)
+##### 5.4 setLightnessLimit($type, $lightness)
 
 This setting is optional, if you won't call this function, default value will be used.
 
@@ -105,7 +112,7 @@ This setting is optional, if you won't call this function, default value will be
 
 setLightnessLimit() can be called twice if you want to set `max` and `min` limit at the same time (difference between `max` and `min` must be bigger or equal to `0.2`).
 
-##### 5.4 setMaximumColors($maximumColors)
+##### 5.5 setMaximumColors($maximumColors)
 
 This setting is optional, if you won't call this function, number of used colors won't be limited.
 
@@ -113,12 +120,11 @@ This setting is optional, if you won't call this function, number of used colors
 | ------------------------------ | ---------------------------------------- |
 | bigger or equal to `2`         | Limits the maximum number of used colors |
 
-##### 5.5 getColor($number, $opacity = 1)
+##### 5.6 enableDebugging()
 
-| Parameter | Description |
-| --------- | ----------- |
-| $input    | Input you are basing the coloring around, eg.: user id, username |
-| $opacity  | Opacity value, only used if color type is set to `rgba` |
+* Debugging is turned off by default
+* If errors occur empty string is returned from getColor() method
+* Calling this method will display detected errors
 
 ### 6. List of pregenerated colors
 
