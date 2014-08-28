@@ -1,6 +1,6 @@
 #autoColorError {
 	background-color: rgba(196, 0, 0, 0.9);
-	outline: 5px solid rgba(240, 240, 240, 0.9);
+	border: 5px solid rgba(240, 240, 240, .9);
 
 	position: fixed;
 	left: 0; top: 0; right: 0; bottom: 0;
@@ -17,8 +17,11 @@
 #autoColorError span {
 	display: block;
 	background-color: rgba(0, 0, 0, .3);
-	padding: 5px 5px 5px 10px;
+	border-radius: 6px;
+
+	padding: 6px 0px 8px 10px;
 	margin-bottom: 4px;
+	
 	font-size: 105%;
 	font-weight: bold;
 	font-style: normal;
@@ -31,9 +34,10 @@
 
 #autoColorError li, #autoColorError b {
 	color: #fff;
-	text-align: left;
-	font-size: 16px;
 	font-family: 'cambria', 'arial';
+	font-size: 16px;
+	text-align: left;
+
 	margin-left: -5px;
 	margin-top: 15px;
 }
