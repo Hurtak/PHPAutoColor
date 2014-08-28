@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="demo.css">
 <title>PHPAutoColor examples</title>
 
 <?php 
