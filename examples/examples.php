@@ -49,6 +49,7 @@
 		$color->setColorPickingMethod("static");
 		$color->setLightnessLimit("min", 0.2);
 		$color->setLightnessLimit("max", 0.8);
+		// $color->enableDebugging();
 	?>
 	<table>
 		<tr>
@@ -76,6 +77,7 @@
 		$color->setColorPickingMethod("dynamic");
 		$color->setLightnessLimit("min", 0.2);
 		$color->setLightnessLimit("max", 0.8);
+		// $color->enableDebugging();		
 	?>
 	<table>
 		<tr>
@@ -105,6 +107,7 @@
 		$color->setColorPickingMethod("dynamic-random");
 		$color->setLightnessLimit("min", 0.2);
 		$color->setLightnessLimit("max", 0.8);
+		// $color->enableDebugging();
 	?>
 	<table>
 		<tr>
@@ -132,6 +135,7 @@
 		$color->setColorPickingMethod("random");
 		$color->setLightnessLimit("min", 0.2);
 		$color->setLightnessLimit("max", 0.8);
+		// $color->enableDebugging();
 	?>
 	<table>
 		<tr>
