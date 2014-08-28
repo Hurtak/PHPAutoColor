@@ -9,7 +9,7 @@
  * @link    github.com/Hurtak/PHPAutoColor
  * @license The MIT License (MIT)
  * 
- * @version 1.1.2
+ * @version 1.1.3
  */
 
 class PHPAutoColor {
@@ -32,13 +32,15 @@ class PHPAutoColor {
 	private $colorType = "hex";
 
 	private $inputsWithAssignedColors = array();
-	private $error = array();
 
 	private $usedColors = 0;
 	private $maximumColors = false;
 	private $numberOfColors;
 
 	private $inicializationCompleted = false;
+
+	private $debuggingEnabled = false;
+	private $errors = array();
 
 	// pregenerated colors with CIEDE2000 algorithm 
 	// en.wikipedia.org/wiki/Color_difference#CIEDE2000
@@ -64,7 +66,7 @@ class PHPAutoColor {
 		if (in_array($colorPickingMethod, $this->colorPickingMethods)) {
 			$this->colorPickingMethod = $colorPickingMethod;
 		} else {
-			$this->error[] = "Computation type value not specified properly, '" . implode("', '", $this->colorPickingMethods) . "' are the only accepted values. Entered value '" . $colorPickingMethod . "'.";
+			$this->errors[] = "Computation type value not specified properly, '" . implode("', '", $this->colorPickingMethods) . "' are the only accepted values. Entered value '" . $colorPickingMethod . "'.";
 		}
 	}	
 
@@ -78,7 +80,7 @@ class PHPAutoColor {
 		if (in_array($colorType, $this->colorTypes)) {
 			$this->colorType = $colorType;
 		} else {
-			$this->error[] = "Color type value not specified properly, '" . implode("', '", $this->colorTypes) . "'' are the only accepted values. Entered value '" . $colorType . "'.";
+			$this->errors[] = "Color type value not specified properly, '" . implode("', '", $this->colorTypes) . "'' are the only accepted values. Entered value '" . $colorType . "'.";
 		}
 	}
 
@@ -98,13 +100,13 @@ class PHPAutoColor {
 		$maximumLightnessRange = 0.2; // <0.2;1.0>
 		$minimumLightnessRange = 0.8; // <0.0;0.8>
 		if ($type !== "max" && $type !== "min") {
-			$this->error[] = "Lightness limitation type not specified properly, only 'max' and 'min' are accepted values. Entered value '" . $type . "'.";
+			$this->errors[] = "Lightness limitation type not specified properly, only 'max' and 'min' are accepted values. Entered value '" . $type . "'.";
 		} elseif (!is_numeric($lightness)) {
-			$this->error[] = "Lightness value not specified properly, only numbers are accepted. Entered value '" . $lightness . "'.";
+			$this->errors[] = "Lightness value not specified properly, only numbers are accepted. Entered value '" . $lightness . "'.";
 		} elseif ($type === "max" && ($lightness < $maximumLightnessRange || $lightness > 1)) {
-			$this->error[] = "Maximum lightness value must be in <" . $maximumLightnessRange . ";1> range. Entered value '" . $lightness . "'.";
+			$this->errors[] = "Maximum lightness value must be in <" . $maximumLightnessRange . ";1> range. Entered value '" . $lightness . "'.";
 		} elseif ($type === "min" && ($lightness > $minimumLightnessRange || $lightness < 0)) {
-			$this->error[] = "Minimum lightness value must be in <0;" . $minimumLightnessRange . "> range. Entered value '" . $lightness . "'.";
+			$this->errors[] = "Minimum lightness value must be in <0;" . $minimumLightnessRange . "> range. Entered value '" . $lightness . "'.";
 		} else {
 			if ($type === "max") {
 				$this->lightnessMax = $lightness;
@@ -123,12 +125,20 @@ class PHPAutoColor {
 		$min = 2;
 
 		if (!is_numeric($maximumColors)) {
-			$this->error[] = "Maximum number of colors value not specified properly, only numbers are accepted. Entered value '" . $maximumColors . "'.";
+			$this->errors[] = "Maximum number of colors value not specified properly, only numbers are accepted. Entered value '" . $maximumColors . "'.";
 		} elseif ($maximumColors < $min) {
-			$this->error[] = "Maximum number of colors must be bigger or equal to " . $min . ". Entered value '" . $maximumColors . "'.";
+			$this->errors[] = "Maximum number of colors must be bigger or equal to " . $min . ". Entered value '" . $maximumColors . "'.";
 		} else {
 			$this->maximumColors = $maximumColors;
 		}
+	}
+
+	/**
+	 * Enables debbuging mode. If there are any errors, they will be displayed
+	 * in debugging window. 
+	 */
+	public function enableDebugging() {
+		$this->debuggingEnabled = true;
 	}
 
 	/**
@@ -140,12 +150,13 @@ class PHPAutoColor {
 	 * @return [string]              visually most distinct color 
 	 */
 	public function getColor($input, $opacity = 1) {
+
 		if (!is_numeric($opacity)) {
-			$this->error[] = "Opacity value is not a number. Entered value '" . $opacity . "'.";
+			$this->errors[] = "Opacity value is not a number. Entered value '" . $opacity . "'.";
 		} elseif ($opacity > 1 || $opacity < 0) {
-			$this->error[] = "Opacity must be in <0;1> range. Entered value '" . $opacity . "'.";
+			$this->errors[] = "Opacity must be in <0;1> range. Entered value '" . $opacity . "'.";
 		} elseif (is_array($input)) {
-			$this->error[] = "Input must be number or string, array detected.";
+			$this->errors[] = "Input must be number or string, array detected.";
 		}
 
 		$input = (string)$input;
@@ -156,7 +167,7 @@ class PHPAutoColor {
 
 			$minimumDifference = 0.2;
 			if ($this->lightnessMax - $this->lightnessMin < $minimumDifference) {
-				$this->error[] = "Difference between maximum and minimum lightness must be at least " . $minimumDifference . ". Entered values: max '" . $this->lightnessMax . "', min  '" . $this->lightnessMin . "', difference " . ($this->lightnessMax - $this->lightnessMin) . ".";
+				$this->errors[] = "Difference between maximum and minimum lightness must be at least " . $minimumDifference . ". Entered values: max '" . $this->lightnessMax . "', min  '" . $this->lightnessMin . "', difference " . ($this->lightnessMax - $this->lightnessMin) . ".";
 			}
 
 			if ($this->lightnessMin !== 0 || $this->lightnessMax !== 1) {
@@ -168,6 +179,15 @@ class PHPAutoColor {
 			}
 
 			$this->numberOfColors = count($this->CIEDE2000);
+		}
+
+		static $errorsPrinted = false; // prevents displaying more than one error message if there are more instances of PHPAutoColor class
+		if (!$errorsPrinted && $this->debuggingEnabled && count($this->errors) > 0) {
+			$this->handleErrors($this->errors);
+			$errorsPrinted = true;
+		}
+		if (count($this->errors) > 0) {
+			return "";
 		}
 		
 		// assigning color to entered number
@@ -220,8 +240,6 @@ class PHPAutoColor {
 				break;						
 		}
 
-		$this->error = $this->handleErrors($this->error);
-
 		return $color;
 	}
 
@@ -248,7 +266,7 @@ class PHPAutoColor {
 	 * @param  [int]   [$lightnessMax] lightness max in <0;1> range
 	 * @param  [int]   [$lightnessMin] lightness min in <0;1> range
 	 * @param  [array] [$colors]       array with colors
-	 * @return [type]                  array with removed colors
+	 * @return [array]                  array with removed colors
 	 */
 	private function removeColorsOutsideLightnessSettings($lightnessMin, $lightnessMax, $colors) {
 		$adjustedColors = array();
@@ -266,7 +284,7 @@ class PHPAutoColor {
 	 * When maximum number of colors is set, we remove the ones we will not be using
 	 * @param  [int]   [$numberOfColors] maximum number of colors in array
 	 * @param  [array] [$colors]         array with colors
-	 * @return [type]                    array with removed colors
+	 * @return [array]                    array with removed colors
 	 */
 	private function limitNumberOfUsedColors($numberOfColors, $colors) {
 		$adjustedColors = array();
@@ -328,31 +346,23 @@ class PHPAutoColor {
 	}
 
 	/**
-	 * Prints all errors if there are any
-	 * @param  [array]  [$errors] array with errors, each array value represents one error
-	 * @return [string]           returns empty array so we can clear error list
+	 * Displays all errors
+	 * @param  [array]  [$errors] array with errors, each array value
+	 *                            represents one error
 	 */
 	private function handleErrors($errors) {
-		static $errorsPrinted = false;
+		$errorsList = "<li>" . implode("</li><li>", $errors) . "</li>";
+		$css = file_get_contents("errors.css", true);
 
-		if (!$errorsPrinted && count($errors) > 0) {
-			$errorsPrinted = true;
+		/* '>"> is here so it can close the <div style="background-color: <?= $color->getColor($number) ?>"> tag and properly display errors div */
+		$errorsOutput = 
+			"'>\">
+			<style>" . $css . "</style>
+			<div id='autoColorError'> 
+				<b>PHPAutoColor - ERRORS DETECTED</b>
+				<ul>" . $errorsList . "</ul>
+			</div>";
 
-			$errorsList = "<li>" . implode("</li><li>", $errors) . "</li>";
-			$css = file_get_contents("errors.css", true);
-
-			/* '>"> is here so it can close the <div style="background-color: <?= $color->getColor($number) ?>"> tag and properly display error div */
-			$errorsOutput = 
-				"'>\">
-				<style>" . $css . "</style>
-				<div id='autoColorError'> 
-					<b>PHPAutoColor - ERRORS DETECTED</b>
-					<ul>" . $errorsList . "</ul>
-				</div>";
-
-			echo $errorsOutput;
-		}
-	
-		return array();
+		echo $errorsOutput;
 	}
 }
