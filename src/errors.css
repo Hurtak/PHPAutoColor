@@ -6,12 +6,27 @@
 	left: 0; top: 0; right: 0; bottom: 0;
 	margin: auto;
 
-	width: 400px;
-	height: 250px;
+	width: 410px;
+	height: 330px;
 
 	overflow: auto;
 	z-index: 9999;
-	padding: 1em;
+	padding: 25px 25px 0 0;
+}
+
+#autoColorError span {
+	display: block;
+	background-color: rgba(0, 0, 0, .3);
+	padding: 5px 5px 5px 10px;
+	margin-bottom: 4px;
+	font-size: 105%;
+	font-weight: bold;
+	font-style: normal;
+}
+
+#autoColorError i {
+	color: #E6DB74;
+	font-style: normal;
 }
 
 #autoColorError li, #autoColorError b {
@@ -19,6 +34,8 @@
 	text-align: left;
 	font-size: 16px;
 	font-family: 'cambria', 'arial';
+	margin-left: -5px;
+	margin-top: 15px;
 }
 
 #autoColorError b {
