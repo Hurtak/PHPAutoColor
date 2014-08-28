@@ -1,6 +1,6 @@
 #autoColorError {
-	background-color: rgba(196, 0, 0, 0.85);
-	outline: 5px solid rgba(230, 230, 230, 0.92);
+	background-color: rgba(196, 0, 0, 0.9);
+	outline: 5px solid rgba(240, 240, 240, 0.9);
 
 	position: fixed;
 	left: 0; top: 0; right: 0; bottom: 0;
