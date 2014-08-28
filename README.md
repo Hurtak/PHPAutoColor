@@ -42,16 +42,19 @@
 	$sql->execute();
 	$userActions = $sql->fetchAll();
 	
-	// PHPAutoColor settings
+	// initial setup
 	include "PHPAutoColor.php";
 	$color = new PHPAutoColor();
-	$color->setColorType("hex");
+
+	// PHPAutoColor settings (optional)
+	$color->setColorType("rgb");
 	$color->setColorPickingMethod("dynamic");
 	$color->setLightnessLimit("min", 0.3);
 
 	?>
 	
 	<table>
+	
 		<tr>
 			<td>id</td>
 			<td>user_id</td>
@@ -67,7 +70,7 @@
 			<td><?= $action["date"] ?></td>
 		</tr>
 		<?php endforeach ?>
-	
+
 	</table>
 ```
 
