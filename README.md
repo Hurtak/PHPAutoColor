@@ -73,12 +73,17 @@
 
 ### 5. Settings
 
-##### 5.1 getColor($number, $opacity = 1)
+##### 5.1 getColor($input, $opacity = 1)
+
+The $opacity settings is optional, with default value `1`.
 
 | Parameter | Description |
 | --------- | ----------- |
-| $input    | Input you are basing the coloring around, eg.: user id, username |
+| $input    | Input you are basing the coloring around, eg.: user id or username. Both strings and numbers are accepted. |
 | $opacity  | Opacity value, only used if color type is set to `rgba` |
+
+* returns string of color in hex format (can be changed, see 5.3)
+* on error returns empty string (to display errors list, enable debugging, see 5.6)
 
 ##### 5.2 setColorPickingMethod($colorPickingMethod)
 
@@ -98,8 +103,8 @@ This setting is optional, if you won't call this function, default value will be
 | $colorType      | Description |
 | --------------- | ----------- |
 | `hex` (default) | Color in hexadecimal format will be returned. If possible, color will be shortened to 3 digit format. (eg.: `#968AE8`, `#FFF`) |
-| `rgb`           | Color in rgb format (eg.: `rgb(255,0,0)`) |
-| `rgba`          | Color in rgba format (eg.: `rgba(255,0,0,0.5)`) |
+| `rgb`           | Color in rgb format (eg.: `rgb(255,255,255)`) |
+| `rgba`          | Color in rgba format (eg.: `rgba(255,255,255,0.5)`) |
 
 ##### 5.4 setLightnessLimit($type, $lightness)
 
@@ -122,9 +127,9 @@ This setting is optional, if you won't call this function, number of used colors
 
 ##### 5.6 enableDebugging()
 
-* Debugging is turned off by default
-* If errors occur empty string is returned from getColor() method
-* Calling this method will display detected errors
+* debugging is turned off and errors are not displayed by default
+* if errors occur, empty string is returned from getColor() method
+* calling this method will display detected errors
 
 ### 6. List of pregenerated colors
 
