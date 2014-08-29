@@ -31,7 +31,7 @@
 * advance algorithms like <a href="http://en.wikipedia.org/wiki/Color_difference#CIEDE2000">CIEDE2000</a> or <a href="http://alienryderflex.com/hsp.html">HSP</a> color model
 * easy debugging
 
-<img src="http://i.imgur.com/ReCpGGC.png">
+<img src="http://i.imgur.com/U2vd5Qo.png">
 
 ### 4. Code example
 ```php
