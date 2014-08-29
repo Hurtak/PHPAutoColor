@@ -77,7 +77,7 @@
 		$color->setColorPickingMethod("dynamic");
 		$color->setLightnessLimit("min", 0.2);
 		$color->setLightnessLimit("max", 0.8);
-		// $color->enableDebugging();		
+		// $color->enableDebugging();
 	?>
 	<table>
 		<tr>

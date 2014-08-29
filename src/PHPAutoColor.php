@@ -9,7 +9,7 @@
  * @link    github.com/Hurtak/PHPAutoColor
  * @license The MIT License (MIT)
  * 
- * @version 1.2.1
+ * @version 1.2.2
  */
 
 class PHPAutoColor {
@@ -40,6 +40,7 @@ class PHPAutoColor {
 	private $inicializationCompleted = false;
 
 	private $debuggingEnabled = false;
+	private $errorsDetected = false;
 	private $errors = array();
 
 	// pregenerated colors with CIEDE2000 algorithm 
@@ -81,7 +82,7 @@ class PHPAutoColor {
 		if (in_array($colorType, $this->colorTypes)) {
 			$this->colorType = $colorType;
 		} else {
-			$this->addError("Color type value not specified properly, '" . implode("', '", $this->colorTypes) . "'' are the only accepted values. Entered value '" . $colorType . "'.");
+			$this->addError("Color type value not specified properly, '" . implode("', '", $this->colorTypes) . "' are the only accepted values. Entered value '" . $colorType . "'.");
 		}
 	}
 
@@ -159,8 +160,6 @@ class PHPAutoColor {
 			$this->addError("Input (first parameter) must be number or string, array detected.");
 		}
 
-		$input = (string)$input;
-
 		// initialization
 		if (!$this->inicializationCompleted) {
 			$this->inicializationCompleted = true;
@@ -182,15 +181,21 @@ class PHPAutoColor {
 		}
 
 		// debugging and error displaying
-		static $errorsPrinted = false; // prevents displaying more than one error message if there are more instances of PHPAutoColor class
-		if (!$errorsPrinted && $this->debuggingEnabled && count($this->errors) > 0) {
+		static $errorsPrinted = false;
+		
+		if ($this->debuggingEnabled && !$errorsPrinted && $this->errorsDetected){
+			// prevents displaying more than one error message if there are more instances of PHPAutoColor class
 			$this->displayErrors($this->errors);
 			$errorsPrinted = true;
 		}
-		if (count($this->errors) > 0) {
+
+		if ($this->errorsDetected) {
+			// if there are any errors detected, returns empty string
 			return "";
 		}
 		
+		$input = (string)$input;
+
 		// assigning color to entered number
 		if (isset($this->inputsWithAssignedColors[$input])) {
 			$color = $this->inputsWithAssignedColors[$input];
@@ -199,21 +204,26 @@ class PHPAutoColor {
 				case 'random':
 					$color = dechex(mt_rand(0, 0xFFFFFF));
 					$color = $this->addLeadingZeros($color);
+
 					$this->inputsWithAssignedColors[$input] = $color;
+
 					break;
 				case "dynamic":
 					$color = $this->CIEDE2000[$this->usedColors%$this->numberOfColors];
+
 					break;
 				case "dynamic-random":
 					$color = $this->CIEDE2000[mt_rand(0, $this->numberOfColors - 1)];
+
 					break;
 				case "static":
 					$inputAdjusted = $input;
 					if ((int)$input != $input) {
-						// transfers input to integer
-						$inputAdjusted = abs(crc32($input));
+						$inputAdjusted = abs(crc32($input)); // transfers input to integer
 					}
+
 					$color = $this->CIEDE2000[$inputAdjusted%$this->numberOfColors];
+
 					break;
 			}
 			$this->usedColors++;
@@ -267,7 +277,7 @@ class PHPAutoColor {
 	 * @param  [int]   [$lightnessMax] lightness max in <0;1> range
 	 * @param  [int]   [$lightnessMin] lightness min in <0;1> range
 	 * @param  [array] [$colors]       array with colors
-	 * @return [array]                  array with removed colors
+	 * @return [array]                 array with removed colors
 	 */
 	private function removeColorsOutsideLightnessSettings($lightnessMin, $lightnessMax, $colors) {
 		$adjustedColors = array();
@@ -286,7 +296,7 @@ class PHPAutoColor {
 	 * When maximum number of colors is set, we remove the ones we will not be using
 	 * @param  [int]   [$numberOfColors] maximum number of colors in array
 	 * @param  [array] [$colors]         array with colors
-	 * @return [array]                    array with removed colors
+	 * @return [array]                   array with removed colors
 	 */
 	private function limitNumberOfUsedColors($numberOfColors, $colors) {
 		$adjustedColors = array();
@@ -354,6 +364,8 @@ class PHPAutoColor {
 	 * @param [string] [$message] Error message
 	 */
 	private function addError($message) {
+		$this->errorsDetected = true;
+
 		$backtrace = debug_backtrace();
 
 		$functionName = $backtrace[1]['function'];
@@ -368,9 +380,9 @@ class PHPAutoColor {
 	}	
 
 	/**
-	 * Displays all errors
-	 * @param  [array]  [$errors] array with errors, each array value
-	 *                            represents one error
+	 * Displays errors list
+	 * @param [array] [$errors] array with errors, each array value represents
+	 *                          one error
 	 */
 	private function displayErrors($errors) {
 		$errorsList = "<li>" . implode("</li><li>", $errors) . "</li>";
