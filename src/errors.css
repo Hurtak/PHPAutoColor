@@ -1,20 +1,20 @@
-#autoColorError {
+#auto-color {
 	background-color: rgba(196, 0, 0, 0.9);
 	border: 5px solid rgba(240, 240, 240, .9);
 
-	position: fixed;
-	left: 0; top: 0; right: 0; bottom: 0;
-	margin: auto;
+	position: fixed; 
+	top: 0; left: 0; bottom: 0; right: 0; 
+	margin: auto; 
+	overflow: auto;
 
-	width: 410px;
+	width: 400px;
 	height: 350px;
 
-	overflow: auto;
 	z-index: 9999;
-	padding: 25px 25px 0 0;
+	padding: 20px;
 }
 
-#autoColorError span {
+#auto-color span {
 	display: block;
 	background-color: rgba(0, 0, 0, .3);
 	border-radius: 6px;
@@ -27,21 +27,26 @@
 	font-style: normal;
 }
 
-#autoColorError i {
+#auto-color i {
 	color: #E6DB74;
 	font-style: normal;
 }
 
-#autoColorError li, #autoColorError b {
+#auto-color p, #auto-color b {
 	color: #fff;
+
 	font-family: 'cambria', 'arial';
 	font-size: 16px;
 	text-align: left;
 
-	margin-left: -5px;
-	margin-top: 15px;
+	margin-top: 20px;
+	margin-bottom: 0;
 }
 
-#autoColorError b {
+#auto-color b {
+	display: block;
+	margin: 10px 0 20px 0;
+
 	font-size: 20px;
+	text-align: center;
 }

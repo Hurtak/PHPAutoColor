@@ -9,7 +9,7 @@
  * @link    github.com/Hurtak/PHPAutoColor
  * @license The MIT License (MIT)
  * 
- * @version 1.2.2
+ * @version 1.2.3
  */
 
 class PHPAutoColor {
@@ -385,16 +385,16 @@ class PHPAutoColor {
 	 *                          one error
 	 */
 	private function displayErrors($errors) {
-		$errorsList = "<li>" . implode("</li><li>", $errors) . "</li>";
 		$css = file_get_contents("errors.css", true);
+		$errorsList = implode("</p><p>", $errors);
 
 		/* '>"> is here so it can close the <div style="background-color: <?= $color->getColor($number) ?>"> tag and properly display errors div */
 		$errorsOutput = 
 			"'>\">
 			<style>" . $css . "</style>
-			<div id='autoColorError'>
+			<div id='auto-color'>
 				<b>PHPAutoColor - ERRORS DETECTED</b>
-				<ul>" . $errorsList . "</ul>
+				<p>" . $errorsList . "</p>
 			</div>";
 
 		echo $errorsOutput;
