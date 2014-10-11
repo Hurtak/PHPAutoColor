@@ -9,7 +9,7 @@
  * @link    github.com/Hurtak/PHPAutoColor
  * @license The MIT License (MIT)
  * 
- * @version 1.2.3
+ * @version 1.2.4
  */
 
 class PHPAutoColor {
