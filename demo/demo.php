@@ -1,3 +1,4 @@
+<!doctype html>
 <meta charset="utf-8">
 <link rel="stylesheet" href="demo.css">
 <title>PHPAutoColor examples</title>

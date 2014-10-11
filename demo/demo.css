@@ -4,6 +4,8 @@ body {
 }
 
 .wrapper {
+	margin: 0 auto;
+	width: 900px;
 	text-align: center;
 }
 
@@ -11,12 +13,13 @@ table {
 	color: #fff;
 	display: inline-block;
 	font-family: "cambria", "arial";
-	margin: .5em;
+	margin-bottom: 1em;
 	width: 400px;
 }
 
 table:first-child {
-	margin-bottom: 1em;
+	margin: 1em 0;
+	width: auto;
 }
 
 th, td {
