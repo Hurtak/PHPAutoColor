@@ -10,16 +10,26 @@
 
 ### 2. Usage
 
-##### 2.1 Basic setup 
-```php
-	include "PHPAutoColor.php";
-	$color = new PHPAutoColor();
+##### 2.1 Instalation
+```
+	git clone https://github.com/Hurtak/PHPAutoColor.git
+```
+Or you can use [Composer](https://getcomposer.org/)
+```
+	composer require hurtak/phpautocolor:@dev
 ```
 
-##### 2.2 Settings (optional)
+##### 2.2 Basic setup 
+```php
+	include "PHPAutoColor/src/PHPAutoColor.php";
+	$color = new PHPAutoColor();
+```
+* you can also use , install package <code>hurtak/phpautocolor</code>
+
+##### 2.3 Settings (optional)
 * customize PHPAutoColor settings or don't do anything and default settings will be used
 
-##### 2.3 Send user id or username, color will be returned
+##### 2.4 Send user id or username, color will be returned
 * integers, numbers with decimal points and strings (case sensitive) are accepted
 ```php
 	$color->getColor($userID); // returns "#000"
