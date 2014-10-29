@@ -3,7 +3,7 @@
 ##### Simple PHP class for automated coloring with visually distinct colors.
 
 ### 1. Use case
-* coloring peoples messages in chat by their user name or their user id
+* coloring people's messages in chat by their user name or their user id
 * coloring list of latest users actions, on admin dashboard, by user id or username
 
 <img src="http://i.imgur.com/gWcqw2c.png">
