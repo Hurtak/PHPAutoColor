@@ -122,14 +122,13 @@ Or you can use [Composer](https://getcomposer.org/)
 ##### 5.4 setLightnessLimit($type, $lightness)
 
 * Limits the maximum or minimum perceived lightness of colors which will be returned after calling `getColor()`. For example, you have white background so you don't want `getColor()` to return white and other very bright colors, so you use `setLightnessLimit("max", 0.8)`
-* setLightnessLimit() can be called twice if you want to set `max` and `min` limit at the same time (difference between `"max"` and `"min"` must be bigger or equal to `0.2`)
+* setLightnessLimit() can be called twice if you want to set `"max"` and `"min"` limit at the same time (difference between maximum and minimum lightness must be bigger or equal to `0.2`)
 * This setting is optional, if you won't call this function, default value will be used
 
 | $type | $lightness default | Accepted values | Description |
 | ----- | ------------------ | --------------- | ----------- |
 | `"max"` | `1`                | <`0.2`;`1`>     | Limits maximum perceived lightness of returned colors |
 | `"min"` | `0`                | <`0`;`0.8`>     | Limits minimum perceived lightness of returned colors |
-
 
 ##### 5.5 setMaximumColors($maximumColors)
 
@@ -150,6 +149,6 @@ Or you can use [Composer](https://getcomposer.org/)
 ### 6. List of pregenerated colors
 
 * List of 65 visually most distinct colors generated using [CIEDE2000](http://en.wikipedia.org/wiki/Color_difference#CIEDE2000) algorithm
-* Colors from this list are used if you use `setColorPickingMethod()` with `static` (default), `dynamic` or `dynamic-random` parameter
+* Colors from this list are used if you use `setColorPickingMethod()` with `"static"` (default), `"dynamic"` or `"dynamic-random"` parameter
 
 <img src="http://i.imgur.com/40Dwl8U.png">
