@@ -19,19 +19,19 @@
 
 ### 3. Usage
 
-##### 2.1 Instalation
+##### 2.1 Installation
 ```
-	git clone https://github.com/Hurtak/PHPAutoColor.git
+    git clone https://github.com/Hurtak/PHPAutoColor.git
 ```
 Or you can use [Composer](https://getcomposer.org/)
 ```
-	composer require hurtak/phpautocolor:@dev
+    composer require hurtak/phpautocolor:@dev
 ```
 
-##### 2.2 Basic setup 
+##### 2.2 Basic setup
 ```php
-	include "PHPAutoColor/src/PHPAutoColor.php";
-	$color = new PHPAutoColor();
+    include "PHPAutoColor/src/PHPAutoColor.php";
+    $color = new PHPAutoColor();
 ```
 
 ##### 2.3 Settings (optional)
@@ -40,99 +40,102 @@ Or you can use [Composer](https://getcomposer.org/)
 ##### 2.4 Send user id or username, color will be returned
 * integers, numbers with decimal points and strings (case sensitive) are accepted
 ```php
-	$color->getColor($userID); // returns "#000"
+    $color->getColor($userID); // returns "#000"
 ```
 
 ### 4. Code example
 ```php
-	<?php
+    <?php
 
-	// data from DB
-	$sql = $pdo->prepare("SELECT * FROM actions");
-	$sql->execute();
-	$userActions = $sql->fetchAll();
-	
-	// initial setup
-	include "PHPAutoColor.php";
-	$color = new PHPAutoColor();
+    // data from DB
+    $sql = $pdo->prepare("SELECT * FROM actions");
+    $sql->execute();
+    $userActions = $sql->fetchAll();
+   
+    // initial setup
+    include "PHPAutoColor.php";
+    $color = new PHPAutoColor();
 
-	// PHPAutoColor settings (optional)
-	$color->setColorType("rgb");
-	$color->setColorPickingMethod("dynamic");
-	$color->setLightnessLimit("min", 0.3);
+    // PHPAutoColor settings (optional)
+    $color->setColorType("rgb");
+    $color->setColorPickingMethod("dynamic");
+    $color->setLightnessLimit("min", 0.3);
 
-	?>
-	
-	<table>
-	
-		<tr>
-			<td>id</td>
-			<td>user_id</td>
-			<td>amount</td>
-			<td>date</td>
-		</tr>
+    ?>
+   
+    <table>
+   
+        <tr>
+            <td>id</td>
+            <td>user_id</td>
+            <td>amount</td>
+            <td>date</td>
+        </tr>
 
-		<?php foreach ($userActions as $action): ?>
-		<tr style="background-color: <?= $color->getColor($action['user_id']) ?>">
-			<td><?= $action["id"] ?></td>
-			<td><?= $action["user_id"] ?></td>
-			<td><?= $action["amount"] ?></td>
-			<td><?= $action["date"] ?></td>
-		</tr>
-		<?php endforeach ?>
+        <?php foreach ($userActions as $action): ?>
+        <tr style="background-color: <?= $color->getColor($action['user_id']) ?>">
+            <td><?= $action["id"] ?></td>
+            <td><?= $action["user_id"] ?></td>
+            <td><?= $action["amount"] ?></td>
+            <td><?= $action["date"] ?></td>
+        </tr>
+        <?php endforeach ?>
 
-	</table>
+    </table>
 ```
 
 ### 5. Settings
 
 ##### 5.1 getColor($input, $opacity = 1)
 
-The $opacity settings is optional, with default value `1`.
+* returns string of color in hex format (can be changed, see [chapter 5.3](https://github.com/Hurtak/PHPAutoColor#53-setcolortypecolortype))
+* on error returns empty string (to display errors list, enable debugging, see [chapter 5.6](https://github.com/Hurtak/PHPAutoColor#56-enabledebugging))
 
 | Parameter | Description |
 | --------- | ----------- |
-| $input    | Input you are basing the coloring around, eg.: user id or username. Both strings and numbers are accepted. |
-| $opacity  | Opacity value, only used if color type is set to `rgba` |
-
-* returns string of color in hex format (can be changed, see 5.3)
-* on error returns empty string (to display errors list, enable debugging, see 5.6)
+| `$input`    | Input you are basing the coloring around, eg.: user id or user name. Integers, numbers with decimal points and strings (case sensitive) are accepted |
+| `$opacity` (optional) | CSS opacity value, only used if [color type](https://github.com/Hurtak/PHPAutoColor#53-setcolortypecolortype) is set to `"rgba"`. Accepted values are numbers in <`0`;`1`> range. Default value is set to `1` |
 
 ##### 5.2 setColorPickingMethod($colorPickingMethod)
 
-This setting is optional, if you won't call this function, default value will be used.
+* Specifies what color picking method will be used when `getColor()` is called
+* This setting is optional, if you won't call this function, default value will be used
 
 | $colorPickingMethod  | Description |
 | -------------------- | ----------- |
-| `static` (default)   | Colors are assigned from pregenerated colors list. Same color is always assigned to gived number or string |
-| `dynamic`            | Colors are assigned gradually from pregenerated colors list (first color will always be black, second one white...) |
-| `dynamic-random`     | Colors are assigned randomly from pregenerated colors list |
-| `random`             | Colors are assigned randomly |
+| `"static"` (default)   | Colors are assigned from pregenerated colors list. The same color will always be assigned to certain input across instances of PHPAutoColor |
+| `"dynamic"`            | Colors are assigned gradually from pregenerated colors list (first color will always be black, second one white...) |
+| `"dynamic-random"`     | Colors are assigned randomly from pregenerated colors list |
+| `"random"`             | Colors are assigned randomly |
 
 ##### 5.3 setColorType($colorType)
 
-This setting is optional, if you won't call this function, default value will be used.
+* Specifies in what format the color will be returned after calling `getColor()`
+* This setting is optional, if you won't call this function, default value will be used
 
 | $colorType      | Description |
 | --------------- | ----------- |
-| `hex` (default) | Color in hexadecimal format will be returned. If possible, color will be shortened to 3 digit format. (eg.: `#968AE8`, `#FFF`) |
-| `rgb`           | Color in rgb format (eg.: `rgb(255,255,255)`) |
-| `rgba`          | Color in rgba format (eg.: `rgba(255,255,255,0.5)`) |
+| `"hex"` (default) | Color in hexadecimal format will be returned. If possible, color will be shortened to 3 digit format. (eg.: `#968AE8`, `#FFF`) |
+| `"rgb"`           | Color in rgb format (eg.: `rgb(255,255,255)`) |
+| `"rgba"`          | Color in rgba format (eg.: `rgba(255,255,255,0.5)`) |
 
 ##### 5.4 setLightnessLimit($type, $lightness)
 
-This setting is optional, if you won't call this function, default value will be used.
+* Limits the maximum or minimum perceived lightness of colors which will be returned after calling `getColor()`. For example, you have white background so you don't want `getColor()` to return white and other very bright colors, so you use `setLightnessLimit("max", 0.8)`
+* setLightnessLimit() can be called twice if you want to set `max` and `min` limit at the same time (difference between `"max"` and `"min"` must be bigger or equal to `0.2`)
+* This setting is optional, if you won't call this function, default value will be used
 
 | $type | $lightness default | Accepted values | Description |
 | ----- | ------------------ | --------------- | ----------- |
-| `max` | `1`                | <`0.2`;`1`>     | Limits maximum perceived lightness of returned colors |
-| `min` | `0`                | <`0`;`0.8`>     | Limits minimum perceived lightness of returned colors |
+| `"max"` | `1`                | <`0.2`;`1`>     | Limits maximum perceived lightness of returned colors |
+| `"min"` | `0`                | <`0`;`0.8`>     | Limits minimum perceived lightness of returned colors |
 
-setLightnessLimit() can be called twice if you want to set `max` and `min` limit at the same time (difference between `max` and `min` must be bigger or equal to `0.2`).
 
 ##### 5.5 setMaximumColors($maximumColors)
 
-This setting is optional, if you won't call this function, number of used colors won't be limited.
+* Limits the maximum number of colors with which the PHPAutoColor will work.
+* If list of used colors in one instance of PHPAutoColor will hit the `$maximumColors` limit, we start reusing previously assigned colors
+* This setting is optional, if you won't call this function, number of used colors won't be limited
 
 | $maximumColors accepted values | Description                              |
 | ------------------------------ | ---------------------------------------- |
@@ -140,13 +143,13 @@ This setting is optional, if you won't call this function, number of used colors
 
 ##### 5.6 enableDebugging()
 
-* debugging is turned off and errors are not displayed by default
-* if errors occur, empty string is returned from getColor() method
-* calling this method will display detected errors
+* Enables displaying of detected errors
+* If errors occur, empty string is returned from `getColor()` method
+* This setting is optional, if you won't call this function debugging window won't appear
 
 ### 6. List of pregenerated colors
 
-List of 65 visually most distinct colors generated using [CIEDE2000](http://en.wikipedia.org/wiki/Color_difference#CIEDE2000) algorithm.
-Colors from this list are used if you use `setColorPickingMethod()` with `dynamic`, `dynamic-random` or `static` parameter.
+* List of 65 visually most distinct colors generated using [CIEDE2000](http://en.wikipedia.org/wiki/Color_difference#CIEDE2000) algorithm
+* Colors from this list are used if you use `setColorPickingMethod()` with `static` (default), `dynamic` or `dynamic-random` parameter
 
 <img src="http://i.imgur.com/40Dwl8U.png">
